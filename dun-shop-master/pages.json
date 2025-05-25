@@ -1,0 +1,104 @@
+{
+	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+		{
+			"path": "pages/index/index",
+			"style": {
+				"navigationBarTitleText": "index"
+			}
+		},
+		{
+			"path": "pages/home/home",
+			"style": {
+				"navigationBarTitleText": "home"
+			}
+		},
+		{
+			"path": "pages/search/search",
+			"style": {
+				"navigationBarTitleText": ""
+			}
+		},
+		{
+			"path": "pages/user/user",
+			"style": {
+				"navigationBarTitleText": ""
+			}
+		},
+		{
+			"path": "pages/myShop/myShop",
+			"style": {
+				"navigationBarTitleText": ""
+			}
+		},
+		{
+			"path": "pages/myMessages/myMessages",
+			"style": {
+				"navigationBarTitleText": ""
+			}
+		},
+		{
+			"path": "pages/mySale/mySale",
+			"style": {
+				"navigationBarTitleText": ""
+			}
+		},
+		{
+			"path": "pages/addSale/addSale",
+			"style": {
+				"navigationBarTitleText": ""
+			}
+		},
+		{
+			"path": "pages/login/login",
+			"style": {
+				"navigationBarTitleText": ""
+			}
+		},
+		{
+			"path": "pages/chat/chat",
+			"style": {
+				"navigationBarTitleText": ""
+			}
+		},
+		{
+			"path" : "pages/itemDetail/itemDetail",
+			"style" : 
+			{
+				"navigationBarTitleText" : ""
+			}
+		}
+	],
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "uni-app",
+		"navigationBarBackgroundColor": "#F8F8F8",
+		"backgroundColor": "#F8F8F8",
+		"navigationStyle": "default"
+	},
+	"uniIdRouter": {},
+	"tabBar": {
+		"color": "#FBB0AC",
+		"selectedColor": "#DB7093",
+		"list": [{
+			"pagePath": "pages/index/index",
+			"iconPath": "static/tabarIcons/index.png",
+			"selectedIconPath": "static/tabarIcons/index2.png",
+			"text": "DunShop"
+		}, {
+			"pagePath": "pages/myShop/myShop",
+			"iconPath": "static/tabarIcons/shop.png",
+			"selectedIconPath": "static/tabarIcons/shop2.png",
+			"text": "店铺"
+		}, {
+			"pagePath": "pages/myMessages/myMessages",
+			"iconPath": "static/tabarIcons/talk.png",
+			"selectedIconPath": "static/tabarIcons/talk2.png",
+			"text": "消息"
+		}, {
+			"pagePath": "pages/user/user",
+			"iconPath": "static/tabarIcons/my.png",
+			"selectedIconPath": "static/tabarIcons/my2.png",
+			"text": "我的"
+		}]
+	}
+}

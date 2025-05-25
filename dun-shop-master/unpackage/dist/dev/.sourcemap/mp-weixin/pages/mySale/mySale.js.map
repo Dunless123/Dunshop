@@ -1,0 +1,1 @@
+{"version":3,"file":"mySale.js","sources":["../../HbuilderX/HBuilderX/plugins/uniapp-cli-vite/uniPage:/cGFnZXMvbXlTYWxlL215U2FsZS52dWU"],"sourcesContent":["import MiniProgramPage from 'E:/桌面/dun-shop-master/pages/mySale/mySale.vue'\nwx.createPage(MiniProgramPage)"],"names":["MiniProgramPage"],"mappings":";;AACA,GAAG,WAAWA,OAAe,eAAA;"}

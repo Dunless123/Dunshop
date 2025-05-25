@@ -1,0 +1,1 @@
+<view class=""><cola-u-chat wx:if="{{d}}" bindrefresh="{{a}}" bindsendMsg="{{b}}" bindmoreClick="{{c}}" u-i="5de63efe-0" bind:__l="__l" u-p="{{d}}"></cola-u-chat></view>

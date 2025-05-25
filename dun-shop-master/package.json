@@ -1,0 +1,6 @@
+{
+	"dependencies": {
+		"axios": "0.27.2",
+		"uniapp-axios-adapter": "^0.3.2"
+	}
+}

@@ -1,0 +1,1 @@
+{"version":3,"file":"home2.js","sources":["../../HbuilderX/HBuilderX/plugins/uniapp-cli-vite/uniPage:/RTov5qGM6Z2iL2R1bi1zaG9wLW1hc3Rlci9wYWdlcy9ob21lL2hvbWUudnVl"],"sourcesContent":["import MiniProgramPage from 'E:/桌面/dun-shop-master/pages/home/home.vue'\nwx.createPage(MiniProgramPage)"],"names":["MiniProgramPage"],"mappings":";;AACA,GAAG,WAAWA,KAAe,eAAA;"}

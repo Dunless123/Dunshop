@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "",
+  "usingComponents": {
+    "cola-u-chat": "../../uni_modules/cola-u-chat/components/cola-u-chat/cola-u-chat"
+  }
+}

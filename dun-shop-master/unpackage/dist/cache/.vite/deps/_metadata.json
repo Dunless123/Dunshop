@@ -1,0 +1,25 @@
+{
+  "hash": "36c8377a",
+  "configHash": "b0a8557a",
+  "lockfileHash": "3056db60",
+  "browserHash": "6e69e7f2",
+  "optimized": {
+    "axios": {
+      "src": "../../../../../node_modules/axios/index.js",
+      "file": "axios.js",
+      "fileHash": "b9d66f06",
+      "needsInterop": true
+    },
+    "uniapp-axios-adapter": {
+      "src": "../../../../../node_modules/uniapp-axios-adapter/lib/index.esm.js",
+      "file": "uniapp-axios-adapter.js",
+      "fileHash": "316c4e3d",
+      "needsInterop": false
+    }
+  },
+  "chunks": {
+    "chunk-COICTRUR": {
+      "file": "chunk-COICTRUR.js"
+    }
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/home/home",
+    "pages/search/search",
+    "pages/user/user",
+    "pages/myShop/myShop",
+    "pages/myMessages/myMessages",
+    "pages/mySale/mySale",
+    "pages/addSale/addSale",
+    "pages/login/login",
+    "pages/chat/chat",
+    "pages/itemDetail/itemDetail"
+  ],
+  "window": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "uni-app",
+    "navigationBarBackgroundColor": "#F8F8F8",
+    "backgroundColor": "#F8F8F8",
+    "navigationStyle": "default"
+  },
+  "tabBar": {
+    "color": "#FBB0AC",
+    "selectedColor": "#DB7093",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "iconPath": "static/tabarIcons/index.png",
+        "selectedIconPath": "static/tabarIcons/index2.png",
+        "text": "DunShop"
+      },
+      {
+        "pagePath": "pages/myShop/myShop",
+        "iconPath": "static/tabarIcons/shop.png",
+        "selectedIconPath": "static/tabarIcons/shop2.png",
+        "text": "店铺"
+      },
+      {
+        "pagePath": "pages/myMessages/myMessages",
+        "iconPath": "static/tabarIcons/talk.png",
+        "selectedIconPath": "static/tabarIcons/talk2.png",
+        "text": "消息"
+      },
+      {
+        "pagePath": "pages/user/user",
+        "iconPath": "static/tabarIcons/my.png",
+        "selectedIconPath": "static/tabarIcons/my2.png",
+        "text": "我的"
+      }
+    ]
+  },
+  "usingComponents": {}
+}
