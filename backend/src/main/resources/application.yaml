@@ -1,0 +1,40 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: schoolmarket
+  datasource:
+    url: jdbc:mysql://localhost:3306/schoolmarket?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  resources:
+    static-locations: classpath:/static/,file:uploads/
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 100MB
+      max-request-size: 100MB
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      password:
+      timeout: 6000ms
+      lettuce:
+        pool:
+          max-active: 8
+          max-idle: 8
+          min-idle: 0
+          max-wait: -1ms
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  mapper-locations: classpath:mapper/*.xml
+jwt:
+  secret: schoolmarket_secret_key
+  expiration: 86400
+wechat:
+  appid: wxbe4245e39e97706b
+  appsecret: 1b6a84bfedb1b933e7c2a3977c6914ee

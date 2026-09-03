@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.schoolmarket.mapper.GoodsMapper">
+    <resultMap id="BaseResultMap" type="com.example.schoolmarket.entity.Goods">
+        <id column="id" property="id" />
+        <result column="title" property="title" />
+        <result column="description" property="description" />
+        <result column="price" property="price" />
+        <result column="original_price" property="originalPrice" />
+        <result column="images" property="images" />
+        <result column="category_id" property="categoryId" />
+        <result column="tags" property="tags" />
+        <result column="campus_id" property="campusId" />
+        <result column="seller_id" property="sellerId" />
+        <result column="quality" property="quality" />
+        <result column="trade_methods" property="tradeMethods" />
+        <result column="view_count" property="viewCount" />
+        <result column="favorite_count" property="favoriteCount" />
+        <result column="status" property="status" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+    </resultMap>
+
+    <select id="selectAllGoods" resultMap="BaseResultMap">
+        SELECT * FROM goods
+        ORDER BY create_time DESC
+    </select>
+
+    <select id="selectGoodsList" resultMap="BaseResultMap" parameterType="java.util.Map">
+        SELECT * FROM goods
+        <where>
+            <if test="categoryId != null">
+                AND category_id = #{categoryId}
+            </if>
+            <if test="campusId != null">
+                AND campus_id = #{campusId}
+            </if>
+            <if test="keyword != null and keyword != ''">
+                AND (title LIKE CONCAT('%', #{keyword}, '%') OR description LIKE CONCAT('%', #{keyword}, '%'))
+            </if>
+            <if test="status != null and status != ''">
+                AND status = #{status}
+            </if>
+        </where>
+        <if test="sortBy != null and sortBy != ''">
+            ORDER BY ${sortBy} ${order}
+        </if>
+        <if test="sortBy == null or sortBy == ''">
+            ORDER BY create_time DESC
+        </if>
+        <if test="offset != null and pageSize != null">
+            LIMIT #{pageSize} OFFSET #{offset}
+        </if>
+    </select>
+
+    <select id="countGoods" resultType="int" parameterType="java.util.Map">
+        SELECT COUNT(*) FROM goods
+        <where>
+            <if test="sellerId != null">
+                AND seller_id = #{sellerId}
+            </if>
+            <if test="categoryId != null">
+                AND category_id = #{categoryId}
+            </if>
+            <if test="campusId != null">
+                AND campus_id = #{campusId}
+            </if>
+            <if test="keyword != null and keyword != ''">
+                AND (title LIKE CONCAT('%', #{keyword}, '%') OR description LIKE CONCAT('%', #{keyword}, '%'))
+            </if>
+            <if test="status != null and status != ''">
+                AND status = #{status}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectBySellerId" resultMap="BaseResultMap" parameterType="java.util.Map">
+        SELECT * FROM goods WHERE seller_id = #{sellerId}
+        <if test="status != null and status != ''">
+            AND status = #{status}
+        </if>
+        ORDER BY create_time DESC
+        <if test="offset != null and pageSize != null">
+            LIMIT #{pageSize} OFFSET #{offset}
+        </if>
+    </select>
+
+    <select id="selectById" resultMap="BaseResultMap">
+        SELECT * FROM goods WHERE id = #{id}
+    </select>
+
+    <insert id="insert" parameterType="com.example.schoolmarket.entity.Goods">
+        INSERT INTO goods (title, description, price, original_price, images, category_id, tags, campus_id, seller_id, quality, trade_methods, view_count, favorite_count, status, create_time, update_time)
+        VALUES (#{title}, #{description}, #{price}, #{originalPrice}, #{images}, #{categoryId}, #{tags}, #{campusId}, #{sellerId}, #{quality}, #{tradeMethods}, #{viewCount}, #{favoriteCount}, #{status}, NOW(), NOW())
+    </insert>
+
+    <update id="update" parameterType="com.example.schoolmarket.entity.Goods">
+        UPDATE goods
+        <set>
+            <if test="title != null">title = #{title},</if>
+            <if test="description != null">description = #{description},</if>
+            <if test="price != null">price = #{price},</if>
+            <if test="originalPrice != null">original_price = #{originalPrice},</if>
+            <if test="images != null">images = #{images},</if>
+            <if test="categoryId != null">category_id = #{categoryId},</if>
+            <if test="tags != null">tags = #{tags},</if>
+            <if test="campusId != null">campus_id = #{campusId},</if>
+            <if test="sellerId != null">seller_id = #{sellerId},</if>
+            <if test="quality != null">quality = #{quality},</if>
+            <if test="tradeMethods != null">trade_methods = #{tradeMethods},</if>
+            <if test="viewCount != null">view_count = #{viewCount},</if>
+            <if test="favoriteCount != null">favorite_count = #{favoriteCount},</if>
+            <if test="status != null">status = #{status},</if>
+            update_time = NOW()
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="delete" parameterType="Long">
+        DELETE FROM goods WHERE id = #{id}
+    </delete>
+
+    <select id="sumViewsBySellerId" resultType="int" parameterType="Long">
+        SELECT COALESCE(SUM(view_count), 0) FROM goods WHERE seller_id = #{sellerId}
+    </select>
+
+    <select id="sumFavoritesBySellerId" resultType="int" parameterType="Long">
+        SELECT COALESCE(SUM(favorite_count), 0) FROM goods WHERE seller_id = #{sellerId}
+    </select>
+
+    <select id="selectFavorites" resultMap="BaseResultMap" parameterType="java.util.Map">
+        SELECT g.* FROM goods g
+        INNER JOIN favorites f ON g.id = f.goods_id
+        WHERE f.user_id = #{userId}
+        ORDER BY f.create_time DESC
+        <if test="offset != null and pageSize != null">
+            LIMIT #{pageSize} OFFSET #{offset}
+        </if>
+    </select>
+
+    <select id="countFavorites" resultType="int" parameterType="Long">
+        SELECT COUNT(*) FROM favorites WHERE user_id = #{userId}
+    </select>
+</mapper>

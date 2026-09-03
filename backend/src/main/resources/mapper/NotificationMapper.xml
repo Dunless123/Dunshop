@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.schoolmarket.mapper.NotificationMapper">
+    <resultMap id="BaseResultMap" type="com.example.schoolmarket.entity.Notification">
+        <id column="id" property="id"/>
+        <result column="type" property="type"/>
+        <result column="user_id" property="userId"/>
+        <result column="username" property="username"/>
+        <result column="content" property="content"/>
+        <result column="status" property="status"/>
+        <result column="send_time" property="sendTime"/>
+        <result column="create_time" property="createTime"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="com.example.schoolmarket.entity.Notification">
+        INSERT INTO notifications (type, user_id, username, content, status, send_time, create_time)
+        VALUES (#{type}, #{userId}, #{username}, #{content}, #{status}, #{sendTime}, #{createTime})
+    </insert>
+
+    <update id="update" parameterType="com.example.schoolmarket.entity.Notification">
+        UPDATE notifications SET
+        <if test="type != null">type = #{type},</if>
+        <if test="userId != null">user_id = #{userId},</if>
+        <if test="username != null">username = #{username},</if>
+        <if test="content != null">content = #{content},</if>
+        <if test="status != null">status = #{status},</if>
+        <if test="sendTime != null">send_time = #{sendTime},</if>
+        <if test="createTime != null">create_time = #{createTime}</if>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="delete" parameterType="java.lang.Long">
+        DELETE FROM notifications WHERE id = #{id}
+    </delete>
+
+    <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        SELECT * FROM notifications WHERE id = #{id}
+    </select>
+
+    <select id="selectList" resultMap="BaseResultMap" parameterType="java.util.Map">
+        SELECT * FROM notifications
+        <where>
+            <if test="userId != null">AND user_id = #{userId}</if>
+            <if test="type != null and type != ''">AND type = #{type}</if>
+            <if test="status != null and status != ''">AND status = #{status}</if>
+        </where>
+        ORDER BY create_time DESC
+        <if test="offset != null and pageSize != null">
+            LIMIT #{pageSize} OFFSET #{offset}
+        </if>
+    </select>
+
+    <select id="count" resultType="int" parameterType="java.util.Map">
+        SELECT COUNT(*) FROM notifications
+        <where>
+            <if test="userId != null">AND user_id = #{userId}</if>
+            <if test="type != null and type != ''">AND type = #{type}</if>
+            <if test="status != null and status != ''">AND status = #{status}</if>
+        </where>
+    </select>
+</mapper>

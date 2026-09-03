@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.schoolmarket.mapper.FileStorageMapper">
+    <resultMap id="BaseResultMap" type="com.example.schoolmarket.entity.FileStorage">
+        <id column="id" property="id" />
+        <result column="file_name" property="fileName" />
+        <result column="original_name" property="originalName" />
+        <result column="file_path" property="filePath" />
+        <result column="file_size" property="fileSize" />
+        <result column="file_type" property="fileType" />
+        <result column="status" property="status" />
+        <result column="create_time" property="createTime" />
+    </resultMap>
+
+    <select id="selectList" resultMap="BaseResultMap">
+        SELECT * FROM file_storage ORDER BY create_time DESC
+    </select>
+
+    <select id="selectById" resultMap="BaseResultMap">
+        SELECT * FROM file_storage WHERE id = #{id}
+    </select>
+
+    <insert id="insert" parameterType="com.example.schoolmarket.entity.FileStorage">
+        INSERT INTO file_storage (file_name, original_name, file_path, file_size, file_type, status, create_time)
+        VALUES (#{fileName}, #{originalName}, #{filePath}, #{fileSize}, #{fileType}, #{status}, NOW())
+    </insert>
+
+    <delete id="delete" parameterType="Long">
+        DELETE FROM file_storage WHERE id = #{id}
+    </delete>
+</mapper>

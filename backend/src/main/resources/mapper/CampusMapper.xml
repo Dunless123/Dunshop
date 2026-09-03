@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.schoolmarket.mapper.CampusMapper">
+    <resultMap id="BaseResultMap" type="com.example.schoolmarket.entity.Campus">
+        <id column="id" property="id" />
+        <result column="name" property="name" />
+        <result column="create_time" property="createTime" />
+    </resultMap>
+
+    <select id="selectCampusList" resultMap="BaseResultMap">
+        SELECT * FROM campuses
+        ORDER BY id ASC
+    </select>
+
+    <select id="selectById" resultMap="BaseResultMap">
+        SELECT * FROM campuses WHERE id = #{id}
+    </select>
+
+    <insert id="insert" parameterType="com.example.schoolmarket.entity.Campus">
+        INSERT INTO campuses (name, create_time)
+        VALUES (#{name}, NOW())
+    </insert>
+
+    <update id="update" parameterType="com.example.schoolmarket.entity.Campus">
+        UPDATE campuses
+        <set>
+            <if test="name != null">name = #{name},</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="delete" parameterType="Long">
+        DELETE FROM campuses WHERE id = #{id}
+    </delete>
+
+    <select id="count" resultType="int">
+        SELECT COUNT(*) FROM campuses
+    </select>
+</mapper>

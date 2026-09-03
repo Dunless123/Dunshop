@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.schoolmarket.mapper.FavoriteMapper">
+    <resultMap id="BaseResultMap" type="com.example.schoolmarket.entity.Favorite">
+        <id column="id" property="id" />
+        <result column="user_id" property="userId" />
+        <result column="goods_id" property="goodsId" />
+        <result column="create_time" property="createTime" />
+    </resultMap>
+
+    <select id="selectByUserId" resultMap="BaseResultMap">
+        SELECT * FROM favorites WHERE user_id = #{userId}
+        ORDER BY create_time DESC
+        <if test="page != null and pageSize != null">
+            LIMIT #{pageSize} OFFSET #{pageSize} * (#{page} - 1)
+        </if>
+    </select>
+
+    <select id="selectByUserIdAndGoodsId" resultMap="BaseResultMap">
+        SELECT * FROM favorites WHERE user_id = #{userId} AND goods_id = #{goodsId}
+    </select>
+
+    <select id="selectById" resultMap="BaseResultMap">
+        SELECT * FROM favorites WHERE id = #{id}
+    </select>
+
+    <insert id="insert" parameterType="com.example.schoolmarket.entity.Favorite">
+        INSERT INTO favorites (user_id, goods_id, create_time)
+        VALUES (#{userId}, #{goodsId}, NOW())
+    </insert>
+
+    <update id="update" parameterType="com.example.schoolmarket.entity.Favorite">
+        UPDATE favorites
+        <set>
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="goodsId != null">goods_id = #{goodsId},</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="delete" parameterType="Long">
+        DELETE FROM favorites WHERE id = #{id}
+    </delete>
+</mapper>

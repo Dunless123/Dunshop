@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.schoolmarket.mapper.OrderMapper">
+    <resultMap id="BaseResultMap" type="com.example.schoolmarket.entity.Order">
+        <id column="id" property="id" />
+        <result column="order_no" property="orderNo" />
+        <result column="buyer_id" property="buyerId" />
+        <result column="seller_id" property="sellerId" />
+        <result column="goods_id" property="goodsId" />
+        <result column="goods_title" property="goodsTitle" />
+        <result column="goods_image" property="goodsImage" />
+        <result column="price" property="price" />
+        <result column="address_id" property="addressId" />
+        <result column="status" property="status" />
+        <result column="trade_method" property="tradeMethod" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+        <result column="pickup_point_id" property="pickupPointId" />
+        <result column="pickup_point_name" property="pickupPointName" />
+        <result column="pickup_time" property="pickupTime" />
+    </resultMap>
+
+    <select id="selectByBuyerId" resultMap="BaseResultMap" parameterType="java.util.Map">
+        SELECT * FROM orders WHERE buyer_id = #{buyerId}
+        <if test="status != null and status != ''">
+            AND status = #{status}
+        </if>
+        ORDER BY create_time DESC
+        <if test="offset != null and pageSize != null">
+            LIMIT #{pageSize} OFFSET #{offset}
+        </if>
+    </select>
+
+    <select id="countByBuyerId" resultType="int" parameterType="java.util.Map">
+        SELECT COUNT(*) FROM orders WHERE buyer_id = #{buyerId}
+        <if test="status != null and status != ''">
+            AND status = #{status}
+        </if>
+    </select>
+
+    <select id="selectBySellerId" resultMap="BaseResultMap" parameterType="java.util.Map">
+        SELECT * FROM orders WHERE seller_id = #{sellerId}
+        <if test="status != null and status != ''">
+            AND status = #{status}
+        </if>
+        ORDER BY create_time DESC
+        <if test="offset != null and pageSize != null">
+            LIMIT #{pageSize} OFFSET #{offset}
+        </if>
+    </select>
+
+    <select id="countBySellerId" resultType="int" parameterType="java.util.Map">
+        SELECT COUNT(*) FROM orders WHERE seller_id = #{sellerId}
+        <if test="status != null and status != ''">
+            AND status = #{status}
+        </if>
+    </select>
+
+    <select id="selectOrderList" resultMap="BaseResultMap">
+        SELECT * FROM orders
+        ORDER BY create_time DESC
+    </select>
+
+    <select id="countOrderList" resultType="int">
+        SELECT COUNT(*) FROM orders
+    </select>
+
+    <select id="selectById" resultMap="BaseResultMap">
+        SELECT * FROM orders WHERE id = #{id}
+    </select>
+
+    <insert id="insert" parameterType="com.example.schoolmarket.entity.Order" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO orders (order_no, buyer_id, seller_id, goods_id, goods_title, goods_image, price, address_id, status, trade_method, create_time, update_time)
+        VALUES (#{orderNo}, #{buyerId}, #{sellerId}, #{goodsId}, #{goodsTitle}, #{goodsImage}, #{price}, #{addressId}, #{status}, #{tradeMethod}, NOW(), NOW())
+    </insert>
+
+    <update id="update" parameterType="com.example.schoolmarket.entity.Order">
+        UPDATE orders
+        <set>
+            <if test="orderNo != null">order_no = #{orderNo},</if>
+            <if test="buyerId != null">buyer_id = #{buyerId},</if>
+            <if test="sellerId != null">seller_id = #{sellerId},</if>
+            <if test="goodsId != null">goods_id = #{goodsId},</if>
+            <if test="goodsTitle != null">goods_title = #{goodsTitle},</if>
+            <if test="goodsImage != null">goods_image = #{goodsImage},</if>
+            <if test="price != null">price = #{price},</if>
+            <if test="addressId != null">address_id = #{addressId},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="tradeMethod != null">trade_method = #{tradeMethod},</if>
+            <if test="pickupPointId != null">pickup_point_id = #{pickupPointId},</if>
+            <if test="pickupPointName != null">pickup_point_name = #{pickupPointName},</if>
+            <if test="pickupTime != null">pickup_time = #{pickupTime},</if>
+            update_time = NOW()
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="delete" parameterType="Long">
+        DELETE FROM orders WHERE id = #{id}
+    </delete>
+
+    <select id="sumSalesByUserId" resultType="double" parameterType="java.util.Map">
+        SELECT COALESCE(SUM(price), 0) FROM orders
+        <where>
+            <if test="buyerId != null">
+                AND buyer_id = #{buyerId}
+            </if>
+            <if test="sellerId != null">
+                AND seller_id = #{sellerId}
+            </if>
+            <if test="status != null and status != ''">
+                AND status = #{status}
+            </if>
+        </where>
+    </select>
+
+    <select id="countTodayOrdersByUserId" resultType="int" parameterType="java.util.Map">
+        SELECT COUNT(*) FROM orders
+        <where>
+            <if test="buyerId != null">
+                AND buyer_id = #{buyerId}
+            </if>
+            <if test="sellerId != null">
+                AND seller_id = #{sellerId}
+            </if>
+            <if test="status != null and status != ''">
+                AND status = #{status}
+            </if>
+            AND DATE(create_time) = CURRENT_DATE
+        </where>
+    </select>
+
+    <select id="sumTodaySalesByUserId" resultType="double" parameterType="java.util.Map">
+        SELECT COALESCE(SUM(price), 0) FROM orders
+        <where>
+            <if test="buyerId != null">
+                AND buyer_id = #{buyerId}
+            </if>
+            <if test="sellerId != null">
+                AND seller_id = #{sellerId}
+            </if>
+            <if test="status != null and status != ''">
+                AND status = #{status}
+            </if>
+            AND DATE(create_time) = CURRENT_DATE
+        </where>
+    </select>
+
+    <select id="selectAllOrders" resultMap="BaseResultMap" parameterType="java.util.Map">
+        SELECT * FROM orders
+        <where>
+            <if test="buyerId != null">
+                AND buyer_id = #{buyerId}
+            </if>
+            <if test="status != null and status != ''">
+                AND status = #{status}
+            </if>
+            <if test="keyword != null and keyword != ''">
+                AND (order_no LIKE CONCAT('%', #{keyword}, '%') OR goods_title LIKE CONCAT('%', #{keyword}, '%'))
+            </if>
+        </where>
+        ORDER BY create_time DESC
+        <if test="offset != null and pageSize != null">
+            LIMIT #{pageSize} OFFSET #{offset}
+        </if>
+    </select>
+
+    <select id="countAllOrders" resultType="int" parameterType="java.util.Map">
+        SELECT COUNT(*) FROM orders
+        <where>
+            <if test="buyerId != null">
+                AND buyer_id = #{buyerId}
+            </if>
+            <if test="status != null and status != ''">
+                AND status = #{status}
+            </if>
+            <if test="keyword != null and keyword != ''">
+                AND (order_no LIKE CONCAT('%', #{keyword}, '%') OR goods_title LIKE CONCAT('%', #{keyword}, '%'))
+            </if>
+        </where>
+    </select>
+
+    <select id="selectByGoodsId" resultMap="BaseResultMap" parameterType="java.util.Map">
+        SELECT * FROM orders WHERE goods_id = #{goodsId}
+        <if test="status != null and status != ''">
+            AND status = #{status}
+        </if>
+        ORDER BY create_time DESC
+    </select>
+</mapper>

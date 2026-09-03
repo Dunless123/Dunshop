@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.schoolmarket.mapper.UserPickupPointMapper">
+
+    <insert id="insert" parameterType="com.example.schoolmarket.entity.UserPickupPoint">
+        INSERT INTO user_pickup_points (user_id, pickup_id)
+        VALUES (#{userId}, #{pickupId})
+    </insert>
+
+    <delete id="deleteByUserIdAndPickupId" parameterType="map">
+        DELETE FROM user_pickup_points
+        WHERE user_id = #{userId} AND pickup_id = #{pickupId}
+    </delete>
+
+    <select id="selectPickupPointsByUserId" parameterType="java.lang.Long" resultType="com.example.schoolmarket.entity.Pickup">
+        SELECT p.* FROM pickup_points p
+        INNER JOIN user_pickup_points up ON p.id = up.pickup_id
+        WHERE up.user_id = #{userId}
+        ORDER BY up.create_time DESC
+    </select>
+
+    <select id="countByUserIdAndPickupId" parameterType="map" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM user_pickup_points
+        WHERE user_id = #{userId} AND pickup_id = #{pickupId}
+    </select>
+
+</mapper>

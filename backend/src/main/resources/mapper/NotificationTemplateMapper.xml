@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.schoolmarket.mapper.NotificationTemplateMapper">
+    <resultMap id="BaseResultMap" type="com.example.schoolmarket.entity.NotificationTemplate">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="content" property="content"/>
+        <result column="type" property="type"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="com.example.schoolmarket.entity.NotificationTemplate">
+        INSERT INTO notification_templates (name, content, type)
+        VALUES (#{name}, #{content}, #{type})
+    </insert>
+
+    <update id="update" parameterType="com.example.schoolmarket.entity.NotificationTemplate">
+        UPDATE notification_templates SET
+        <if test="name != null">name = #{name},</if>
+        <if test="content != null">content = #{content},</if>
+        <if test="type != null">type = #{type}</if>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="delete" parameterType="java.lang.Long">
+        DELETE FROM notification_templates WHERE id = #{id}
+    </delete>
+
+    <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        SELECT * FROM notification_templates WHERE id = #{id}
+    </select>
+
+    <select id="selectAll" resultMap="BaseResultMap">
+        SELECT * FROM notification_templates ORDER BY id DESC
+    </select>
+</mapper>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.schoolmarket.mapper.PickupPointMapper">
+    <resultMap id="BaseResultMap" type="com.example.schoolmarket.entity.Pickup">
+        <id column="id" property="id" />
+        <result column="name" property="name" />
+        <result column="campus_id" property="campusId" />
+        <result column="campus_name" property="campusName" />
+        <result column="address" property="address" />
+        <result column="phone" property="phone" />
+        <result column="status" property="status" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+    </resultMap>
+
+    <select id="selectList" resultMap="BaseResultMap">
+        SELECT * FROM pickup_points ORDER BY id ASC
+    </select>
+
+    <select id="selectById" resultMap="BaseResultMap">
+        SELECT * FROM pickup_points WHERE id = #{id}
+    </select>
+
+    <insert id="insert" parameterType="com.example.schoolmarket.entity.Pickup">
+        INSERT INTO pickup_points (name, campus_id, campus_name, address, phone, status, create_time, update_time)
+        VALUES (#{name}, #{campusId}, #{campusName}, #{address}, #{phone}, #{status}, NOW(), NOW())
+    </insert>
+
+    <update id="update" parameterType="com.example.schoolmarket.entity.Pickup">
+        UPDATE pickup_points
+        <set>
+            <if test="name != null">name = #{name},</if>
+            <if test="campusId != null">campus_id = #{campusId},</if>
+            <if test="campusName != null">campus_name = #{campusName},</if>
+            <if test="address != null">address = #{address},</if>
+            <if test="phone != null">phone = #{phone},</if>
+            <if test="status != null">status = #{status},</if>
+            update_time = NOW()
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="delete" parameterType="Long">
+        DELETE FROM pickup_points WHERE id = #{id}
+    </delete>
+
+    <select id="count" resultType="int">
+        SELECT COUNT(*) FROM pickup_points
+    </select>
+</mapper>

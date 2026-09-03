@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.schoolmarket.mapper.UserMapper">
+    <resultMap id="BaseResultMap" type="com.example.schoolmarket.entity.User">
+        <id column="id" property="id" />
+        <result column="student_id" property="studentId" />
+        <result column="username" property="username" />
+        <result column="password" property="password" />
+        <result column="email" property="email" />
+        <result column="phone" property="phone" />
+        <result column="campus_id" property="campusId" />
+        <result column="avatar" property="avatar" />
+        <result column="open_id" property="openId" />
+        <result column="role" property="role" />
+        <result column="status" property="status" />
+        <result column="auth_status" property="authStatus" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+    </resultMap>
+
+    <select id="selectByStudentId" resultMap="BaseResultMap">
+        SELECT * FROM users WHERE student_id = #{studentId}
+    </select>
+
+    <select id="selectAllUsers" resultMap="BaseResultMap">
+        SELECT * FROM users
+        ORDER BY create_time DESC
+    </select>
+
+    <select id="selectUserList" resultMap="BaseResultMap" parameterType="java.util.Map">
+        SELECT * FROM users
+        <where>
+            <if test="keyword != null and keyword != ''">
+                AND (student_id LIKE CONCAT('%', #{keyword}, '%') OR username LIKE CONCAT('%', #{keyword}, '%'))
+            </if>
+            <if test="status != null and status != ''">
+                AND status = #{status}
+            </if>
+            <if test="authStatus != null and authStatus != ''">
+                AND auth_status = #{authStatus}
+            </if>
+        </where>
+        ORDER BY create_time DESC
+        <if test="page != null and pageSize != null">
+            LIMIT #{pageSize} OFFSET #{pageSize} * (#{page} - 1)
+        </if>
+    </select>
+
+    <select id="selectById" resultMap="BaseResultMap">
+        SELECT * FROM users WHERE id = #{id}
+    </select>
+
+    <insert id="insert" parameterType="com.example.schoolmarket.entity.User">
+        INSERT INTO users (student_id, username, password, campus_id, avatar, open_id, status, auth_status, create_time, update_time)
+        VALUES (#{studentId}, #{username}, #{password}, #{campusId}, #{avatar}, #{openId}, #{status}, #{authStatus}, NOW(), NOW())
+    </insert>
+
+    <update id="update" parameterType="com.example.schoolmarket.entity.User">
+        UPDATE users
+        <set>
+            <if test="studentId != null">student_id = #{studentId},</if>
+            <if test="username != null">username = #{username},</if>
+            <if test="password != null">password = #{password},</if>
+            <if test="email != null">email = #{email},</if>
+            <if test="phone != null">phone = #{phone},</if>
+            <if test="campusId != null">campus_id = #{campusId},</if>
+            <if test="avatar != null">avatar = #{avatar},</if>
+            <if test="openId != null">open_id = #{openId},</if>
+            <if test="role != null">role = #{role},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="authStatus != null">auth_status = #{authStatus},</if>
+            update_time = NOW()
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="delete" parameterType="Long">
+        DELETE FROM users WHERE id = #{id}
+    </delete>
+
+    <select id="countAllUsers" resultType="int">
+        SELECT COUNT(*) FROM users
+    </select>
+
+    <select id="selectByOpenId" resultMap="BaseResultMap">
+        SELECT * FROM users WHERE open_id = #{openId}
+    </select>
+
+    <select id="selectByPhone" resultMap="BaseResultMap" parameterType="java.util.Map">
+        SELECT * FROM users WHERE phone = #{phone}
+    </select>
+</mapper>

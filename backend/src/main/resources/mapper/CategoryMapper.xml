@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.schoolmarket.mapper.CategoryMapper">
+    <resultMap id="BaseResultMap" type="com.example.schoolmarket.entity.Category">
+        <id column="id" property="id" />
+        <result column="name" property="name" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+    </resultMap>
+
+    <select id="selectCategoryList" resultMap="BaseResultMap">
+        SELECT * FROM categories
+        ORDER BY id ASC
+    </select>
+
+    <select id="selectById" resultMap="BaseResultMap">
+        SELECT * FROM categories WHERE id = #{id}
+    </select>
+
+    <insert id="insert" parameterType="com.example.schoolmarket.entity.Category">
+        INSERT INTO categories (name, create_time, update_time)
+        VALUES (#{name}, NOW(), NOW())
+    </insert>
+
+    <update id="update" parameterType="com.example.schoolmarket.entity.Category">
+        UPDATE categories
+        <set>
+            <if test="name != null">name = #{name},</if>
+            update_time = NOW()
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="delete" parameterType="Long">
+        DELETE FROM categories WHERE id = #{id}
+    </delete>
+</mapper>

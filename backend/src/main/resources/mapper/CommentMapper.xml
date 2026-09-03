@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.schoolmarket.mapper.CommentMapper">
+    <resultMap id="BaseResultMap" type="com.example.schoolmarket.entity.Comment">
+        <id column="id" property="id" />
+        <result column="goods_id" property="goodsId" />
+        <result column="user_id" property="userId" />
+        <result column="content" property="content" />
+        <result column="rating" property="rating" />
+        <result column="images" property="images" />
+        <result column="reply" property="reply" />
+        <result column="status" property="status" />
+        <result column="audit_comment" property="auditComment" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+        <result column="username" property="username" />
+        <result column="avatar" property="avatar" />
+        <result column="goods_title" property="goodsTitle" />
+        <result column="goods_images" property="goodsImages" />
+        <result column="type" property="type" />
+    </resultMap>
+
+    <select id="selectByGoodsId" resultMap="BaseResultMap" parameterType="java.util.Map">
+        SELECT c.*, u.username, u.avatar, g.title as goods_title, g.images as goods_images 
+        FROM comments c 
+        LEFT JOIN users u ON c.user_id = u.id 
+        LEFT JOIN goods g ON c.goods_id = g.id 
+        WHERE c.goods_id = #{goodsId}
+        ORDER BY c.create_time DESC
+        <if test="offset != null and pageSize != null">
+            LIMIT #{pageSize} OFFSET #{offset}
+        </if>
+    </select>
+
+    <select id="countByGoodsId" resultType="int" parameterType="java.util.Map">
+        SELECT COUNT(*) FROM comments WHERE goods_id = #{goodsId}
+    </select>
+
+    <select id="selectByUserId" resultMap="BaseResultMap" parameterType="java.util.Map">
+        SELECT c.*, u.username, u.avatar, g.title as goods_title, g.images as goods_images 
+        FROM comments c 
+        LEFT JOIN users u ON c.user_id = u.id 
+        LEFT JOIN goods g ON c.goods_id = g.id 
+        WHERE c.user_id = #{userId}
+        ORDER BY c.create_time DESC
+        <if test="offset != null and pageSize != null">
+            LIMIT #{pageSize} OFFSET #{offset}
+        </if>
+    </select>
+
+    <select id="countByUserId" resultType="int" parameterType="java.util.Map">
+        SELECT COUNT(*) FROM comments WHERE user_id = #{userId}
+    </select>
+
+    <select id="countByOrderId" resultType="int" parameterType="java.util.Map">
+        SELECT COUNT(*) FROM comments WHERE order_id = #{orderId}
+    </select>
+
+    <select id="selectCommentList" resultMap="BaseResultMap">
+        SELECT c.*, u.username, u.avatar, g.title as goods_title, g.images as goods_images 
+        FROM comments c 
+        LEFT JOIN users u ON c.user_id = u.id 
+        LEFT JOIN goods g ON c.goods_id = g.id 
+        ORDER BY c.create_time DESC
+    </select>
+
+    <select id="selectById" resultMap="BaseResultMap">
+        SELECT * FROM comments WHERE id = #{id}
+    </select>
+
+    <insert id="insert" parameterType="com.example.schoolmarket.entity.Comment">
+        INSERT INTO comments (goods_id, user_id, order_id, content, rating, images, reply, create_time, update_time)
+        VALUES (#{goodsId}, #{userId}, #{orderId}, #{content}, #{rating}, #{images}, #{reply}, NOW(), NOW())
+    </insert>
+
+    <update id="update" parameterType="com.example.schoolmarket.entity.Comment">
+        UPDATE comments
+        <set>
+            <if test="goodsId != null">goods_id = #{goodsId},</if>
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="content != null">content = #{content},</if>
+            <if test="rating != null">rating = #{rating},</if>
+            <if test="images != null">images = #{images},</if>
+            <if test="reply != null">reply = #{reply},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="auditComment != null">audit_comment = #{auditComment},</if>
+            update_time = NOW()
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="delete" parameterType="Long">
+        DELETE FROM comments WHERE id = #{id}
+    </delete>
+
+    <select id="countAll" resultType="int">
+        SELECT COUNT(*) FROM comments
+    </select>
+
+    <select id="countByRating" resultType="int" parameterType="java.util.Map">
+        SELECT COUNT(*) FROM comments WHERE rating = #{rating}
+    </select>
+
+    <select id="selectBySellerId" resultMap="BaseResultMap" parameterType="java.util.Map">
+        SELECT c.*, u.username, u.avatar, g.title as goods_title, g.images as goods_images 
+        FROM comments c 
+        LEFT JOIN users u ON c.user_id = u.id 
+        LEFT JOIN goods g ON c.goods_id = g.id 
+        WHERE g.seller_id = #{sellerId}
+        ORDER BY c.create_time DESC
+        <if test="offset != null and pageSize != null">
+            LIMIT #{pageSize} OFFSET #{offset}
+        </if>
+    </select>
+
+    <select id="countBySellerId" resultType="int" parameterType="java.util.Map">
+        SELECT COUNT(*) FROM comments c 
+        LEFT JOIN goods g ON c.goods_id = g.id 
+        WHERE g.seller_id = #{sellerId}
+    </select>
+</mapper>
